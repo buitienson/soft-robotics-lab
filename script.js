@@ -13,7 +13,7 @@ function fmtDate(iso) {
 // Research
 const researchGrid = document.getElementById("research-grid");
 RESEARCH.forEach((r) => {
-  const card = el("div", "research-card");
+  const card = el("div", "research-card reveal");
   card.appendChild(el("span", "tag mono", r.tag));
   card.appendChild(el("h3", null, r.title));
   card.appendChild(el("p", null, r.body));
@@ -29,12 +29,36 @@ RESEARCH.forEach((r) => {
 });
 
 // Projects
+const PLAY_ICON = `<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.92)"/><path d="M10 8.5l6 3.5-6 3.5z" fill="#1a1a1a"/></svg>`;
 const projectsGrid = document.getElementById("projects-grid");
 PROJECTS.forEach((p, i) => {
-  const card = el("div", "project-card" + (p.flagship ? " flagship-tag" : ""));
-  card.appendChild(el("span", "idx mono", `P/${String(i + 1).padStart(2, "0")}${p.flagship ? " · FLAGSHIP" : ""}`));
-  card.appendChild(el("h3", null, p.title));
-  card.appendChild(el("p", null, p.body));
+  const isVideo = p.media && p.media.type === "video";
+  const card = el(isVideo ? "button" : "div", "project-card reveal" + (p.flagship ? " flagship-tag" : ""));
+  if (isVideo) {
+    card.type = "button";
+    card.dataset.youtube = p.media.youtube;
+    card.addEventListener("click", () => openLightbox(p.media.youtube));
+  }
+
+  const media = el("div", "project-media");
+  if (isVideo) {
+    const img = el("img");
+    img.src = p.media.thumb;
+    img.alt = "";
+    img.loading = "lazy";
+    media.appendChild(img);
+    media.appendChild(el("span", "play", PLAY_ICON));
+  } else if (p.media && p.media.type === "letter") {
+    media.appendChild(el("span", "letter", p.media.letter));
+  }
+  card.appendChild(media);
+
+  const body = el("div", "project-body");
+  body.appendChild(el("span", "idx mono", `P/${String(i + 1).padStart(2, "0")}${p.flagship ? " · FLAGSHIP" : ""}`));
+  body.appendChild(el("h3", null, p.title));
+  body.appendChild(el("p", null, p.body));
+  card.appendChild(body);
+
   projectsGrid.appendChild(card);
 });
 
@@ -72,7 +96,7 @@ if (PUBLICATIONS.length <= PUB_PREVIEW) {
 // Patents
 const patentsList = document.getElementById("patents-list");
 PATENTS.forEach((p) => {
-  const item = el("div", "patent-item");
+  const item = el("div", "patent-item reveal");
   const titleHtml = p.url
     ? `<a href="${p.url}" target="_blank" rel="noopener">${p.title}</a>`
     : p.title;
@@ -85,7 +109,7 @@ PATENTS.forEach((p) => {
 // Team
 const teamGrid = document.getElementById("team-grid");
 MEMBERS.forEach((m) => {
-  const card = el("div", "team-card");
+  const card = el("div", "team-card reveal");
   const initials = m.name.split(" ").slice(-2).map((w) => w[0]).join("").toUpperCase();
   const avatar = m.photo
     ? el("img", "avatar photo")
@@ -167,3 +191,36 @@ navToggle.addEventListener("click", () => {
 document.querySelectorAll(".site-nav a").forEach((a) =>
   a.addEventListener("click", () => header.classList.remove("open"))
 );
+
+// Lightbox
+const lightbox = document.getElementById("lightbox");
+const lightboxIframe = document.getElementById("lightboxIframe");
+function openLightbox(youtubeId) {
+  lightboxIframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
+  lightbox.hidden = false;
+}
+function closeLightbox() {
+  lightbox.hidden = true;
+  lightboxIframe.src = "";
+}
+document.getElementById("lightboxClose").addEventListener("click", closeLightbox);
+lightbox.addEventListener("click", (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !lightbox.hidden) closeLightbox();
+});
+
+// Scroll reveal
+const revealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in");
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.12, rootMargin: "0px 0px -60px 0px" }
+);
+document.querySelectorAll(".reveal").forEach((elx) => revealObserver.observe(elx));

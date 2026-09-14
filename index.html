@@ -8,7 +8,7 @@
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..500&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,7 +18,10 @@
 <header class="site-header">
   <a class="brand" href="#top">
     <img class="brand-mark" src="assets/img/logo-mark.svg" alt="" aria-hidden="true">
-    Soft Robotics Lab
+    <span class="brand-text">
+      <span class="name">Soft Robotics Lab</span>
+      <span class="place mono">HANOI · RESEARCH</span>
+    </span>
   </a>
   <nav class="site-nav" aria-label="Section">
     <a href="#research">Research</a>
@@ -27,7 +30,7 @@
     <a href="#patents">Patents</a>
     <a href="#team">Team</a>
     <a href="#news">News</a>
-    <a href="#contact">Contact</a>
+    <a class="pill-btn" href="#contact">CONTACT</a>
   </nav>
   <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
     <span></span><span></span><span></span>
@@ -37,17 +40,17 @@
 <main id="top">
 
 <section class="hero">
-  <p class="metaline mono">
+  <p class="metaline mono reveal">
     <span class="dot"></span> HANOI UNIVERSITY OF INDUSTRY
     <b>·</b> <span id="clock">--:--</span> ICT
   </p>
-  <h1>Listen to nature.<br>Build gently.</h1>
-  <p class="lede">
+  <h1 class="reveal">Listen to nature.<br>Build gently.</h1>
+  <p class="lede reveal">
     Soft Robotics Lab explores soft robotics, tactile sensing and bio-inspired systems
     through a science-first approach: study how nature solves a problem, then build
     technology that is gentle, useful and safe around people.
   </p>
-  <div class="hero-stats mono">
+  <div class="hero-stats mono reveal">
     <div><span class="num">6</span><span class="lbl">research lines</span></div>
     <div><span class="num">29</span><span class="lbl">publications</span></div>
     <div><span class="num">11</span><span class="lbl">patents</span></div>
@@ -57,14 +60,14 @@
 
 <section id="research" class="section">
   <p class="kicker mono">01 — RESEARCH</p>
-  <h2>What we build</h2>
+  <h2 class="reveal">What we build</h2>
   <p class="section-intro">Bio-inspired robots, tactile sensors and inspection systems, organized around six standing research lines.</p>
   <div id="research-grid" class="research-grid"></div>
 </section>
 
 <section id="lumir" class="section flagship">
   <p class="kicker mono">02 — FLAGSHIP</p>
-  <h2>LumiR: assistive navigation robot</h2>
+  <h2 class="reveal">LumiR: assistive navigation robot</h2>
   <p class="section-intro">
     An AI-integrated mobile robot that helps people with visual impairments move safely and
     independently. LumiR combines 240° LiDAR, computer vision and wireless haptic feedback —
@@ -76,19 +79,22 @@
     <div><span class="num">&gt;70%</span><span class="lbl">collision-free indoor navigation</span></div>
     <div><span class="num">2026</span><span class="lbl">SETSM Best Paper</span></div>
   </div>
+  <figure class="flagship-media reveal">
+    <img src="assets/img/lumir-research.jpg" alt="LumiR research and testing" loading="lazy">
+  </figure>
 </section>
 
 <section id="projects" class="section">
   <p class="kicker mono">03 — PROJECTS</p>
-  <h2>Selected projects</h2>
+  <h2 class="reveal">Selected projects</h2>
   <p class="section-intro">Each project answers a question with hardware and code.</p>
   <div id="projects-grid" class="projects-grid"></div>
 </section>
 
 <section class="section">
   <p class="kicker mono">04 — PRINCIPAL INVESTIGATOR</p>
-  <h2>Dr. Son Tien Bui</h2>
-  <div class="pi-block">
+  <h2 class="reveal">Dr. Son Tien Bui</h2>
+  <div class="pi-block reveal">
     <img class="pi-portrait" src="assets/img/pi-portrait.jpg" alt="Dr. Son Tien Bui">
     <div class="pi-text">
       <p class="pi-role mono">MEMBER, IEEE · LECTURER, HAUI</p>
@@ -110,7 +116,7 @@
 
 <section id="publications" class="section">
   <p class="kicker mono">05 — PUBLICATIONS</p>
-  <h2>Peer-reviewed work</h2>
+  <h2 class="reveal">Peer-reviewed work</h2>
   <p class="section-intro">Papers by Dr. Bui and lab collaborators, newest first.</p>
   <div id="pub-list" class="pub-list"></div>
   <button id="pub-more" class="btn mono" type="button">Show all publications</button>
@@ -118,33 +124,33 @@
 
 <section id="patents" class="section">
   <p class="kicker mono">06 — PATENTS</p>
-  <h2>Patents &amp; utility solutions</h2>
+  <h2 class="reveal">Patents &amp; utility solutions</h2>
   <p class="section-intro">Vietnam IP Office and JPO filings arising from the lab's gripper and propeller work.</p>
   <div id="patents-list" class="patents-list"></div>
 </section>
 
 <section id="team" class="section">
   <p class="kicker mono">07 — LAB MEMBERS</p>
-  <h2>The people</h2>
+  <h2 class="reveal">The people</h2>
   <p class="section-intro">A small group of researchers, engineers, and students working on soft robotics and assistive technologies.</p>
   <div id="team-grid" class="team-grid"></div>
 </section>
 
 <section id="news" class="section">
   <p class="kicker mono">08 — NEWS &amp; UPDATES</p>
-  <h2>Latest from the lab</h2>
+  <h2 class="reveal">Latest from the lab</h2>
   <div id="news-list" class="news-list"></div>
 </section>
 
 <section id="honors" class="section">
   <p class="kicker mono">09 — HONORS &amp; SERVICE</p>
-  <h2>Recognition &amp; contributions</h2>
+  <h2 class="reveal">Recognition &amp; contributions</h2>
   <div class="honors-grid">
-    <div>
+    <div class="reveal">
       <h3 class="mono">Awards &amp; honors</h3>
       <ol id="honors-list" class="honors-list"></ol>
     </div>
-    <div>
+    <div class="reveal">
       <h3 class="mono">Keynotes &amp; chair roles</h3>
       <ol id="service-list" class="service-list"></ol>
       <p id="reviewer-for" class="reviewer-for"></p>
@@ -154,13 +160,13 @@
 
 <section id="contact" class="section contact">
   <p class="kicker mono">10 — CONTACT</p>
-  <h2>Get in touch</h2>
+  <h2 class="reveal">Get in touch</h2>
   <p class="section-intro">
     Interested in collaborating, joining the lab, or licensing a design? Reach out.
   </p>
-  <div class="contact-links mono">
-    <a class="link" href="mailto:sonbt@haui.edu.vn">sonbt@haui.edu.vn →</a>
-    <a class="link" href="https://www.haui.edu.vn" target="_blank" rel="noopener">www.haui.edu.vn →</a>
+  <div class="contact-links reveal">
+    <a class="pill-btn" href="mailto:sonbt@haui.edu.vn">sonbt@haui.edu.vn →</a>
+    <a class="pill-btn" href="https://www.haui.edu.vn" target="_blank" rel="noopener">www.haui.edu.vn →</a>
   </div>
 </section>
 
@@ -170,6 +176,13 @@
   <span>© <span id="year"></span> Soft Robotics Lab, Hanoi University of Industry.</span>
   <a href="https://github.com/buitienson/soft-robotics-lab" target="_blank" rel="noopener">Source on GitHub →</a>
 </footer>
+
+<div class="lightbox" id="lightbox" hidden>
+  <div class="lightbox-inner">
+    <button class="lightbox-close mono" id="lightboxClose" type="button">CLOSE ✕</button>
+    <iframe id="lightboxIframe" src="" title="Video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  </div>
+</div>
 
 <script src="data.js"></script>
 <script src="script.js"></script>

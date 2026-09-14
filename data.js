@@ -53,26 +53,31 @@ const PROJECTS = [
     title: "ROSE: Rotation-based Squeezing Robotic Gripper",
     body: "A soft gripper that embraces an object and squeezes it by buckling a funnel-like thin-walled membrane around it, through simple rotation of the base — inspired by the blooming states of a rose.",
     flagship: true,
+    media: { type: "video", youtube: "E1wAI09LaoY", thumb: "assets/img/projects/rose-video-thumb.jpg" },
   },
   {
     id: "tombo",
     title: "Tombo Propeller",
     body: "A bio-inspired deformable propeller for drones, modeled after dragonfly wings, enabling collision-accommodated flight control.",
+    media: { type: "video", youtube: "zjHvukgfJwc", thumb: "assets/img/projects/tombo-video-thumb.jpg" },
   },
   {
     id: "bicycle",
     title: "Agile Bicycle-like Robot",
     body: "A compact bicycle-like robot with independently steered magnetic wheels and a reciprocating mechanism, enabling multi-directional mobility for inspecting complex ferromagnetic structures.",
+    media: { type: "video", youtube: "Qdh1oz_oxiQ", thumb: "assets/img/projects/bicycle-video-thumb.jpg" },
   },
   {
     id: "bicycle2",
     title: "Multi-directional Bicycle Robot",
     body: "An evolved inspection robot for complex steel structures, equipped with ultrasonic sensing and adaptive shape change to traverse welds, edges, and corners.",
+    media: { type: "letter", letter: "M" },
   },
   {
     id: "aquaband",
     title: "AquaBand",
     body: "An ongoing student-led venture incubated at the lab, with its first pitching trial completed alongside BLOCK71 NUS.",
+    media: { type: "letter", letter: "A" },
   },
 ];
 
