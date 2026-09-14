@@ -40,80 +40,30 @@
 <main id="top">
 
 <section class="hero">
-  <svg class="hero-bot" viewBox="0 0 640 640" preserveAspectRatio="xMaxYMax meet" aria-hidden="true">
-    <defs>
-      <linearGradient id="rbLinkGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#f5f4f0"></stop>
-        <stop offset="0.5" stop-color="#e6e4dd"></stop>
-        <stop offset="1" stop-color="#d3d1c8"></stop>
-      </linearGradient>
-      <linearGradient id="rbPetalOuterGrad" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0" stop-color="#fce4ec"></stop>
-        <stop offset="0.55" stop-color="#f2a8c1"></stop>
-        <stop offset="1" stop-color="#dd6f95"></stop>
-      </linearGradient>
-      <linearGradient id="rbPetalInnerGrad" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0" stop-color="#fff8fa"></stop>
-        <stop offset="0.6" stop-color="#fbd3e0"></stop>
-        <stop offset="1" stop-color="#f0a8c0"></stop>
-      </linearGradient>
-      <radialGradient id="rbHaloGrad">
-        <stop offset="0" stop-color="#1a1a1a" stop-opacity="0.1"></stop>
-        <stop offset="1" stop-color="#1a1a1a" stop-opacity="0"></stop>
-      </radialGradient>
-    </defs>
-
-    <g class="rb-base">
-      <ellipse cx="470" cy="588" rx="92" ry="16" class="rb-base-shadow"></ellipse>
-      <rect x="426" y="520" width="88" height="60" rx="12" class="rb-base-block"></rect>
-      <rect x="440" y="500" width="60" height="28" rx="8" class="rb-base-block"></rect>
+  <svg class="hero-bot" id="heroRobot" preserveAspectRatio="none" aria-hidden="true">
+    <ellipse id="rbBaseShadow" class="rb-base-shadow" cx="0" cy="0" rx="0" ry="0"></ellipse>
+    <path id="rbBase" class="rb-base" d=""></path>
+    <path id="rbBaseTop" class="rb-base-top" d=""></path>
+    <rect id="rbBlock" class="rb-block" x="0" y="0" width="0" height="0" rx="0"></rect>
+    <path id="rbUpper" class="rb-beam" d=""></path>
+    <path id="rbUpperT" class="rb-truss" d=""></path>
+    <path id="rbFore" class="rb-beam" d=""></path>
+    <path id="rbForeT" class="rb-truss" d=""></path>
+    <g id="rbGrip">
+      <path id="rbPet0" class="rb-petal" d=""></path>
+      <path id="rbPet1" class="rb-petal" d=""></path>
+      <path id="rbPet2" class="rb-petal" d=""></path>
+      <path id="rbPet3" class="rb-petal" d=""></path>
+      <path id="rbPet4" class="rb-petal" d=""></path>
+      <path id="rbPet5" class="rb-petal" d=""></path>
+      <circle id="rbCore" class="rb-grip-core" r="0" cx="0" cy="0"></circle>
     </g>
-
-    <g id="rbShoulder">
-      <rect x="470" y="457" width="165" height="26" rx="13" class="rb-link"></rect>
-      <circle cx="470" cy="470" r="24" class="rb-joint-big"></circle>
-      <circle cx="470" cy="470" r="7" class="rb-bolt"></circle>
-      <circle cx="635" cy="470" r="17" class="rb-joint"></circle>
-      <circle cx="635" cy="470" r="5" class="rb-bolt"></circle>
-
-      <g transform="translate(635 470)">
-        <g id="rbElbow">
-          <rect x="0" y="-13" width="135" height="26" rx="13" class="rb-link"></rect>
-          <circle cx="135" cy="0" r="14" class="rb-joint"></circle>
-          <circle cx="135" cy="0" r="5" class="rb-bolt"></circle>
-
-          <g transform="translate(135 0)">
-            <g id="rbGripperMount">
-              <rect x="0" y="-9" width="26" height="18" rx="5" class="rb-mount"></rect>
-              <g class="rb-flower">
-                <circle r="70" class="rb-halo"></circle>
-                <g class="rb-petals-outer">
-                  <g class="rb-petal-g"><path d="M0,0 Q37,-17 76,0 Q37,17 0,0 Z" class="rb-petal rb-petal-outer"></path></g>
-                  <g class="rb-petal-g"><path d="M0,0 Q37,-17 76,0 Q37,17 0,0 Z" class="rb-petal rb-petal-outer"></path></g>
-                  <g class="rb-petal-g"><path d="M0,0 Q37,-17 76,0 Q37,17 0,0 Z" class="rb-petal rb-petal-outer"></path></g>
-                  <g class="rb-petal-g"><path d="M0,0 Q37,-17 76,0 Q37,17 0,0 Z" class="rb-petal rb-petal-outer"></path></g>
-                  <g class="rb-petal-g"><path d="M0,0 Q37,-17 76,0 Q37,17 0,0 Z" class="rb-petal rb-petal-outer"></path></g>
-                  <g class="rb-petal-g"><path d="M0,0 Q37,-17 76,0 Q37,17 0,0 Z" class="rb-petal rb-petal-outer"></path></g>
-                </g>
-                <g class="rb-petals-inner">
-                  <g class="rb-petal-g"><path d="M0,0 Q24,-11 50,0 Q24,11 0,0 Z" class="rb-petal rb-petal-inner"></path></g>
-                  <g class="rb-petal-g"><path d="M0,0 Q24,-11 50,0 Q24,11 0,0 Z" class="rb-petal rb-petal-inner"></path></g>
-                  <g class="rb-petal-g"><path d="M0,0 Q24,-11 50,0 Q24,11 0,0 Z" class="rb-petal rb-petal-inner"></path></g>
-                  <g class="rb-petal-g"><path d="M0,0 Q24,-11 50,0 Q24,11 0,0 Z" class="rb-petal rb-petal-inner"></path></g>
-                  <g class="rb-petal-g"><path d="M0,0 Q24,-11 50,0 Q24,11 0,0 Z" class="rb-petal rb-petal-inner"></path></g>
-                </g>
-                <circle r="12" class="rb-seedpod"></circle>
-                <circle cx="-3" cy="-3" r="1.6" class="rb-seed"></circle>
-                <circle cx="4" cy="-2" r="1.6" class="rb-seed"></circle>
-                <circle cx="0" cy="4" r="1.6" class="rb-seed"></circle>
-                <circle cx="-4" cy="3" r="1.6" class="rb-seed"></circle>
-                <circle cx="4" cy="4" r="1.6" class="rb-seed"></circle>
-              </g>
-            </g>
-          </g>
-        </g>
-      </g>
-    </g>
+    <circle id="rbJ1" class="rb-servo" r="0" cx="0" cy="0"></circle>
+    <circle id="rbJ1i" class="rb-servo-i" r="0" cx="0" cy="0"></circle>
+    <circle id="rbJ2" class="rb-servo" r="0" cx="0" cy="0"></circle>
+    <circle id="rbJ2i" class="rb-servo-i" r="0" cx="0" cy="0"></circle>
+    <circle id="rbJ3" class="rb-servo" r="0" cx="0" cy="0"></circle>
+    <circle id="rbJ3i" class="rb-servo-i" r="0" cx="0" cy="0"></circle>
   </svg>
   <div class="hero-text">
     <p class="metaline mono reveal">

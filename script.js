@@ -211,118 +211,201 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && !lightbox.hidden) closeLightbox();
 });
 
-// Hero robot arm — 2-link inverse kinematics, reaches for the cursor and
-// folds at the elbow when the target is close to the shoulder.
-const rbShoulder = document.getElementById("rbShoulder");
-const rbElbow = document.getElementById("rbElbow");
-if (rbShoulder && rbElbow) {
-  const heroBot = document.querySelector(".hero-bot");
-  const SHOULDER = { x: 470, y: 470 };
-  const L1 = 165;
-  const L2 = 135;
-  const MAX_REACH = L1 + L2 - 1;
-  const MIN_REACH = Math.abs(L1 - L2) + 1;
+// Hero robot arm — ported from buitienson.com's own hero-robot script:
+// a full-bleed procedural SVG (2-link IK arm + ROSE gripper) redrawn every
+// frame from the hero section's own pixel size, not a fixed viewBox.
+(function initRobotArm() {
+  const svg = document.getElementById("heroRobot");
+  const hero = svg && svg.closest(".hero");
+  if (!svg || !hero) return;
 
-  const outerPetals = Array.from(document.querySelectorAll(".rb-petals-outer .rb-petal-g"));
-  const innerPetals = Array.from(document.querySelectorAll(".rb-petals-inner .rb-petal-g"));
-  const outerAngles = outerPetals.map((_, i) => -90 + i * (180 / (outerPetals.length - 1)));
-  const innerAngles = innerPetals.map((_, i) => -72 + i * (144 / (innerPetals.length - 1)));
+  const $ = (id) => document.getElementById(id);
+  const els = {
+    shadow: $("rbBaseShadow"), base: $("rbBase"), baseTop: $("rbBaseTop"), block: $("rbBlock"),
+    upper: $("rbUpper"), upperT: $("rbUpperT"), fore: $("rbFore"), foreT: $("rbForeT"),
+    grip: $("rbGrip"), core: $("rbCore"),
+    petals: [$("rbPet0"), $("rbPet1"), $("rbPet2"), $("rbPet3"), $("rbPet4"), $("rbPet5")],
+    j1: $("rbJ1"), j1i: $("rbJ1i"), j2: $("rbJ2"), j2i: $("rbJ2i"), j3: $("rbJ3"), j3i: $("rbJ3i"),
+  };
 
-  function solveIK(tx, ty) {
-    const dx = tx - SHOULDER.x;
-    const dy = ty - SHOULDER.y;
-    let d = Math.hypot(dx, dy);
-    d = Math.max(MIN_REACH, Math.min(MAX_REACH, d));
-    const a1 = Math.atan2(dy, dx);
-    const cosA = (L1 * L1 + d * d - L2 * L2) / (2 * L1 * d);
-    const a2 = Math.acos(Math.max(-1, Math.min(1, cosA)));
-    const cosB = (L1 * L1 + L2 * L2 - d * d) / (2 * L1 * L2);
-    const b = Math.acos(Math.max(-1, Math.min(1, cosB)));
-    const elbowRel = Math.PI - b;
+  let W = 0, H = 0, base = { x: 0, y: 0 }, L1 = 200, L2 = 175, GRIP = 46, factor = 1;
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Two IK branches exist (elbow bends to either side of the shoulder-target
-    // line). Pick whichever puts the elbow joint higher on screen (smaller y),
-    // so the arm always keeps its elbow clear of the "table" — regardless of
-    // which side the cursor is on — instead of a fixed branch that only looks
-    // right for targets on one side.
-    const candidates = [
-      { shoulder: a1 + a2, elbow: -elbowRel },
-      { shoulder: a1 - a2, elbow: elbowRel },
-    ];
-    let best = candidates[0];
-    let bestY = Infinity;
-    for (const c of candidates) {
-      const elbowY = SHOULDER.y + L1 * Math.sin(c.shoulder);
-      if (elbowY < bestY) {
-        bestY = elbowY;
-        best = c;
-      }
-    }
-    return {
-      shoulder: (best.shoulder * 180) / Math.PI,
-      elbow: (best.elbow * 180) / Math.PI,
+  function resize() {
+    W = hero.clientWidth;
+    H = hero.clientHeight;
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    factor = Math.max(0.48, Math.min(1.08, Math.min(W / 1220, H / 820)));
+    L1 = 252 * factor;
+    L2 = 318 * factor;
+    GRIP = 58 * factor;
+    base.x = W - Math.max(150 * factor, W * 0.22);
+    base.y = H - 156 * factor;
+
+    const oval = (cx, cy, rx, ry) => {
+      const k = 0.5522847498;
+      return `M ${cx - rx} ${cy} C ${cx - rx} ${cy - ry * k} ${cx - rx * k} ${cy - ry} ${cx} ${cy - ry} C ${cx + rx * k} ${cy - ry} ${cx + rx} ${cy - ry * k} ${cx + rx} ${cy} C ${cx + rx} ${cy + ry * k} ${cx + rx * k} ${cy + ry} ${cx} ${cy + ry} C ${cx - rx * k} ${cy + ry} ${cx - rx} ${cy + ry * k} ${cx - rx} ${cy} Z`;
     };
-  }
-
-  const target = { x: 150, y: 120 }; // resting target before the first mousemove
-  let curShoulder = 0;
-  let curElbow = 0;
-  {
-    const rest = solveIK(target.x, target.y);
-    curShoulder = rest.shoulder;
-    curElbow = rest.elbow;
-  }
-
-  document.addEventListener("mousemove", (e) => {
-    const rect = heroBot.getBoundingClientRect();
-    if (!rect.width) return;
-    const scale = 640 / rect.width;
-    target.x = (e.clientX - rect.left) * scale;
-    target.y = (e.clientY - rect.top) * scale;
-  });
-
-  const GRIPPER_PERIOD = 5.5; // seconds for one full open+close cycle
-  const visibleQuery = window.matchMedia("(min-width: 1400px)");
-  let rafId = null;
-
-  // Shortest-path angle delta (-180..180), so lerping never spins the long
-  // way around when the IK branch switch (or atan2 wraparound) jumps ~360deg.
-  function angleDelta(from, to) {
-    return ((((to - from) % 360) + 540) % 360) - 180;
-  }
-
-  function tick() {
-    const goal = solveIK(target.x, target.y);
-    curShoulder += angleDelta(curShoulder, goal.shoulder) * 0.09;
-    curElbow += angleDelta(curElbow, goal.elbow) * 0.12;
-    rbShoulder.setAttribute("transform", `rotate(${curShoulder} ${SHOULDER.x} ${SHOULDER.y})`);
-    rbElbow.setAttribute("transform", `rotate(${curElbow})`);
-
-    const t = performance.now() / 1000;
-    const openness = (Math.sin((t / GRIPPER_PERIOD) * Math.PI * 2 - Math.PI / 2) + 1) / 2;
-    outerPetals.forEach((g, i) => {
-      const open = outerAngles[i];
-      g.setAttribute("transform", `rotate(${open * (0.08 + 0.92 * openness)})`);
-    });
-    innerPetals.forEach((g, i) => {
-      const open = innerAngles[i];
-      g.setAttribute("transform", `rotate(${open * (0.08 + 0.92 * openness)})`);
-    });
-
-    rafId = requestAnimationFrame(tick);
-  }
-
-  function syncLoop(mq) {
-    if (mq.matches && rafId === null) {
-      rafId = requestAnimationFrame(tick);
-    } else if (!mq.matches && rafId !== null) {
-      cancelAnimationFrame(rafId);
-      rafId = null;
+    const bw = 136 * factor, topY = base.y + 82 * factor, bottomY = base.y + 118 * factor;
+    if (els.shadow) {
+      els.shadow.setAttribute("cx", base.x + 6 * factor);
+      els.shadow.setAttribute("cy", bottomY + 12 * factor);
+      els.shadow.setAttribute("rx", bw * 1.08);
+      els.shadow.setAttribute("ry", 17 * factor);
     }
+    els.base.setAttribute("d", `M ${base.x - bw} ${topY} C ${base.x - bw} ${topY - 18 * factor} ${base.x + bw} ${topY - 18 * factor} ${base.x + bw} ${topY} L ${base.x + bw * 0.94} ${bottomY} C ${base.x + bw * 0.94} ${bottomY + 15 * factor} ${base.x - bw * 0.94} ${bottomY + 15 * factor} ${base.x - bw * 0.94} ${bottomY} Z`);
+    if (els.baseTop) els.baseTop.setAttribute("d", oval(base.x, topY, bw * 0.84, 18 * factor));
+    els.block.setAttribute("x", base.x - 46 * factor);
+    els.block.setAttribute("y", base.y - 42 * factor);
+    els.block.setAttribute("width", 92 * factor);
+    els.block.setAttribute("height", 128 * factor);
+    els.block.setAttribute("rx", 18 * factor);
+    [[els.j1, 36], [els.j2, 31], [els.j3, 27]].forEach(([c, r]) => c.setAttribute("r", r * factor));
+    [[els.j1i, 13], [els.j2i, 12], [els.j3i, 9]].forEach(([c, r]) => c.setAttribute("r", r * factor));
   }
-  visibleQuery.addEventListener("change", () => syncLoop(visibleQuery));
-  syncLoop(visibleQuery);
-}
+
+  const tgt = { x: 0, y: 0 }, cur = { x: 0, y: 0 };
+  let haveMouse = false, lastMove = -9999;
+
+  function setTargetFromClient(cx, cy) {
+    const r = svg.getBoundingClientRect();
+    tgt.x = cx - r.left;
+    tgt.y = cy - r.top;
+    haveMouse = true;
+    lastMove = performance.now();
+  }
+  window.addEventListener("mousemove", (e) => setTargetFromClient(e.clientX, e.clientY), { passive: true });
+  window.addEventListener("mouseleave", () => { haveMouse = false; });
+  window.addEventListener(
+    "touchmove",
+    (e) => { if (e.touches && e.touches[0]) setTargetFromClient(e.touches[0].clientX, e.touches[0].clientY); },
+    { passive: true }
+  );
+
+  function idleTarget(t) {
+    const restX = base.x - (L1 + L2) * 0.58;
+    const restY = base.y - (L1 + L2) * 0.62;
+    const R = 44 * factor;
+    return { x: restX + Math.cos(t * 0.0006) * R, y: restY + Math.sin(t * 0.0009) * R * 0.7 };
+  }
+
+  function solveAndDraw() {
+    let dx = cur.x - base.x, dy = cur.y - base.y;
+    let dist = Math.hypot(dx, dy);
+    const maxR = L1 + L2 - 4, minR = Math.abs(L1 - L2) + 14;
+    if (dist > maxR) { dx *= maxR / dist; dy *= maxR / dist; dist = maxR; }
+    else if (dist < minR) { const s = dist === 0 ? 0 : minR / dist; dx *= s; dy *= s; dist = minR; }
+
+    let D = (dist * dist - L1 * L1 - L2 * L2) / (2 * L1 * L2);
+    D = Math.max(-1, Math.min(1, D));
+    const a = Math.atan2(dy, dx);
+    let bestElbow = null;
+    [1, -1].forEach((sign) => {
+      const q2 = sign * Math.acos(D);
+      const q1 = a - Math.atan2(L2 * Math.sin(q2), L1 + L2 * Math.cos(q2));
+      const ex = base.x + L1 * Math.cos(q1), ey = base.y + L1 * Math.sin(q1);
+      if (!bestElbow || ex > bestElbow.ex) bestElbow = { ex, ey, q1, q2 };
+    });
+    const { ex, ey, q1, q2 } = bestElbow;
+    const endA = q1 + q2;
+    const wx = ex + L2 * Math.cos(endA), wy = ey + L2 * Math.sin(endA);
+
+    const capsulePath = (x1, y1, x2, y2, width) => {
+      const len = Math.max(1, Math.hypot(x2 - x1, y2 - y1));
+      const nx = (-(y2 - y1) / len) * width * 0.5;
+      const ny = ((x2 - x1) / len) * width * 0.5;
+      return `M ${x1 + nx} ${y1 + ny} L ${x2 + nx} ${y2 + ny} Q ${x2} ${y2} ${x2 - nx} ${y2 - ny} L ${x1 - nx} ${y1 - ny} Q ${x1} ${y1} ${x1 + nx} ${y1 + ny} Z`;
+    };
+    const highlightPath = (x1, y1, x2, y2, trim) => {
+      const len = Math.max(1, Math.hypot(x2 - x1, y2 - y1));
+      const ux = (x2 - x1) / len, uy = (y2 - y1) / len;
+      return `M ${x1 + ux * trim} ${y1 + uy * trim} L ${x2 - ux * trim} ${y2 - uy * trim}`;
+    };
+    const lowerW = 58 * factor, upperW = 52 * factor;
+    els.upper.setAttribute("d", capsulePath(base.x, base.y, ex, ey, lowerW));
+    els.upperT.setAttribute("d", highlightPath(base.x, base.y, ex, ey, lowerW * 0.78));
+    els.fore.setAttribute("d", capsulePath(ex, ey, wx, wy, upperW));
+    els.foreT.setAttribute("d", highlightPath(ex, ey, wx, wy, upperW * 0.82));
+
+    els.j1.setAttribute("cx", base.x); els.j1.setAttribute("cy", base.y);
+    els.j1i.setAttribute("cx", base.x); els.j1i.setAttribute("cy", base.y);
+    els.j2.setAttribute("cx", ex); els.j2.setAttribute("cy", ey);
+    els.j2i.setAttribute("cx", ex); els.j2i.setAttribute("cy", ey);
+    els.j3.setAttribute("cx", wx); els.j3.setAttribute("cy", wy);
+    els.j3i.setAttribute("cx", wx); els.j3i.setAttribute("cy", wy);
+
+    // ROSE soft gripper: petals bloom open / close over time.
+    const bloom = 0.5 + 0.5 * Math.sin(performance.now() * 0.0022);
+    const spread = 0.12 + 0.52 * bloom;
+    const PL = GRIP * (1.25 + 0.34 * bloom);
+    const PW = GRIP * 0.42;
+    const ca = Math.cos(endA), sa = Math.sin(endA);
+    const n = els.petals.length;
+    const toWorld = (lx, ly) => [wx + lx * ca - ly * sa, wy + lx * sa + ly * ca];
+    const petalStyles = [
+      "fill:#c9151b;stroke:#8f1010;opacity:.54",
+      "fill:#e8272b;stroke:#9f1517;opacity:.64",
+      "fill:#ff4a45;stroke:#a61718;opacity:.46",
+      "fill:#d71920;stroke:#8f1010;opacity:.60",
+      "fill:#ef3437;stroke:#9f1517;opacity:.66",
+      "fill:#bd1018;stroke:#7f0d12;opacity:.50",
+    ];
+    for (let i = 0; i < n; i++) {
+      const pa = (i - (n - 1) / 2) * spread;
+      const dirx = Math.cos(pa), diry = Math.sin(pa);
+      const nx = -Math.sin(pa), ny = Math.cos(pa);
+      const tipL = PL, midL = PL * 0.5;
+      const [bX, bY] = toWorld(0, 0);
+      const [tX, tY] = toWorld(dirx * tipL, diry * tipL);
+      const [c1X, c1Y] = toWorld(dirx * midL + nx * PW, diry * midL + ny * PW);
+      const [c2X, c2Y] = toWorld(dirx * midL - nx * PW, diry * midL - ny * PW);
+      els.petals[i].setAttribute(
+        "d",
+        `M ${bX.toFixed(1)} ${bY.toFixed(1)} Q ${c1X.toFixed(1)} ${c1Y.toFixed(1)} ${tX.toFixed(1)} ${tY.toFixed(1)} Q ${c2X.toFixed(1)} ${c2Y.toFixed(1)} ${bX.toFixed(1)} ${bY.toFixed(1)} Z`
+      );
+      els.petals[i].setAttribute("style", petalStyles[i % petalStyles.length]);
+    }
+    els.core.setAttribute("cx", wx);
+    els.core.setAttribute("cy", wy);
+    els.core.setAttribute("r", 9 * factor);
+    els.core.setAttribute("style", "fill:#b90f18;stroke:#7f0d12;stroke-width:1;opacity:.72");
+  }
+
+  function frame(now) {
+    const goal = haveMouse && now - lastMove < 2600 ? tgt : idleTarget(now);
+    const ease = reduce ? 1 : 0.085;
+    cur.x += (goal.x - cur.x) * ease;
+    cur.y += (goal.y - cur.y) * ease;
+    solveAndDraw();
+    if (!reduce) requestAnimationFrame(frame);
+  }
+
+  function start() {
+    resize();
+    const g = idleTarget(performance.now());
+    cur.x = g.x;
+    cur.y = g.y;
+    solveAndDraw();
+    if (!reduce) requestAnimationFrame(frame);
+  }
+
+  let lastW = 0, lastH = 0;
+  window.addEventListener(
+    "resize",
+    () => {
+      const w = hero.clientWidth, h = hero.clientHeight;
+      if (w === lastW && Math.abs(h - lastH) < 90) return;
+      lastW = w; lastH = h;
+      resize();
+      solveAndDraw();
+    },
+    { passive: true }
+  );
+
+  if (document.readyState === "complete") start();
+  else window.addEventListener("load", start);
+  setTimeout(start, 300);
+})();
 
 // Scroll reveal
 const revealObserver = new IntersectionObserver(

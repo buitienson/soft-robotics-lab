@@ -145,61 +145,46 @@ h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); margin-bottom: 14px; }
 
 .hero-text { min-width: 0; position: relative; z-index: 1; }
 
-/* hero robot illustration */
+/* hero robot illustration — same construction as buitienson.com's hero-robot:
+   a full-bleed SVG behind the hero text, procedurally drawn in JS each frame.
+   Monochrome ink at low opacity for the arm; only the gripper carries color. */
 
 .hero-bot {
   display: none;
   position: absolute;
-  right: -60px;
-  bottom: -60px;
-  width: 640px;
-  height: auto;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.9;
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1100px) {
   .hero-bot { display: block; }
 }
 
-.rb-base-shadow { fill: rgba(26, 26, 26, 0.07); }
+.rb-base-shadow { fill: var(--fg); opacity: 0.1; }
 
-.rb-base-block {
-  fill: url(#rbLinkGrad);
-  stroke: #c5c3ba;
-  stroke-width: 1.5;
+.rb-base { fill: var(--fg); stroke: var(--fg); stroke-width: 1; opacity: 0.16; }
+
+.rb-base-top { fill: var(--fg); stroke: var(--fg); stroke-width: 1; opacity: 0.12; }
+
+.rb-block { fill: var(--fg); stroke: var(--fg); stroke-width: 1; opacity: 0.17; }
+
+.rb-beam { fill: var(--fg); stroke: var(--fg); stroke-width: 1; opacity: 0.22; stroke-linejoin: round; }
+
+.rb-truss {
+  fill: none; stroke: var(--fg); stroke-width: 3; opacity: 0.26;
+  stroke-dasharray: 2, 11; stroke-linecap: round;
 }
 
-.rb-link {
-  fill: url(#rbLinkGrad);
-  stroke: #c5c3ba;
-  stroke-width: 1.5;
-}
+.rb-servo { fill: var(--bg); stroke: var(--fg); stroke-width: 4; opacity: 0.42; }
 
-.rb-joint, .rb-joint-big {
-  fill: #eeede8;
-  stroke: #b3b1a7;
-  stroke-width: 2;
-}
+.rb-servo-i { fill: var(--fg); opacity: 0.2; }
 
-.rb-bolt { fill: #9c9a90; }
+.rb-grip-core { fill: #f3f0e8; stroke: var(--fg); stroke-width: 2; opacity: 0.7; }
 
-.rb-mount { fill: #d8d6cc; stroke: #b3b1a7; stroke-width: 1.5; }
-
-/* IK-driven: JS sets rotate() on #rbShoulder / #rbElbow directly (SVG attribute,
-   not CSS) so nested forward-kinematics composition works without transform-box
-   quirks across browsers. */
-
-.rb-halo { fill: url(#rbHaloGrad); }
-
-.rb-petal-outer { fill: url(#rbPetalOuterGrad); opacity: 0.82; }
-
-.rb-petal-inner { fill: url(#rbPetalInnerGrad); opacity: 0.88; }
-
-.rb-seedpod { fill: #cdd07a; stroke: #b9bd63; stroke-width: 1; }
-
-.rb-seed { fill: #96986a; }
+.rb-petal { fill: #c91d1d; stroke: #8c1212; stroke-width: 1.2; opacity: 0.68; stroke-linejoin: round; }
 
 @media (min-width: 1100px) {
   .hero {
