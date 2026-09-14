@@ -211,37 +211,91 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && !lightbox.hidden) closeLightbox();
 });
 
-// Hero robot arm — follows the cursor
-const rbArm = document.getElementById("rbArm");
-if (rbArm) {
+// Hero robot arm — 2-link inverse kinematics, reaches for the cursor and
+// folds at the elbow when the target is close to the shoulder.
+const rbShoulder = document.getElementById("rbShoulder");
+const rbElbow = document.getElementById("rbElbow");
+if (rbShoulder && rbElbow) {
   const heroBot = document.querySelector(".hero-bot");
-  const SHOULDER = { x: 520, y: 500 };
-  let pending = false;
-  let lastX = 0;
-  let lastY = 0;
+  const SHOULDER = { x: 470, y: 470 };
+  const L1 = 165;
+  const L2 = 135;
+  const MAX_REACH = L1 + L2 - 1;
+  const MIN_REACH = Math.abs(L1 - L2) + 1;
 
-  function updateArm(clientX, clientY) {
-    const rect = heroBot.getBoundingClientRect();
-    if (!rect.width) return;
-    const scale = 640 / rect.width;
-    const localX = (clientX - rect.left) * scale;
-    const localY = (clientY - rect.top) * scale;
-    let angle = (Math.atan2(localY - SHOULDER.y, localX - SHOULDER.x) * 180) / Math.PI;
-    angle = Math.max(-175, Math.min(-15, angle));
-    rbArm.style.transform = `rotate(${angle}deg)`;
+  const outerPetals = Array.from(document.querySelectorAll(".rb-petals-outer .rb-petal-g"));
+  const innerPetals = Array.from(document.querySelectorAll(".rb-petals-inner .rb-petal-g"));
+  const outerAngles = outerPetals.map((_, i) => -90 + i * (180 / (outerPetals.length - 1)));
+  const innerAngles = innerPetals.map((_, i) => -72 + i * (144 / (innerPetals.length - 1)));
+
+  function solveIK(tx, ty) {
+    const dx = tx - SHOULDER.x;
+    const dy = ty - SHOULDER.y;
+    let d = Math.hypot(dx, dy);
+    d = Math.max(MIN_REACH, Math.min(MAX_REACH, d));
+    const a1 = Math.atan2(dy, dx);
+    const cosA = (L1 * L1 + d * d - L2 * L2) / (2 * L1 * d);
+    const a2 = Math.acos(Math.max(-1, Math.min(1, cosA)));
+    const cosB = (L1 * L1 + L2 * L2 - d * d) / (2 * L1 * L2);
+    const b = Math.acos(Math.max(-1, Math.min(1, cosB)));
+    return {
+      shoulder: ((a1 - a2) * 180) / Math.PI,
+      elbow: ((Math.PI - b) * 180) / Math.PI,
+    };
+  }
+
+  const target = { x: 150, y: 120 }; // resting target before the first mousemove
+  let curShoulder = 0;
+  let curElbow = 0;
+  {
+    const rest = solveIK(target.x, target.y);
+    curShoulder = rest.shoulder;
+    curElbow = rest.elbow;
   }
 
   document.addEventListener("mousemove", (e) => {
-    lastX = e.clientX;
-    lastY = e.clientY;
-    if (!pending) {
-      pending = true;
-      requestAnimationFrame(() => {
-        updateArm(lastX, lastY);
-        pending = false;
-      });
-    }
+    const rect = heroBot.getBoundingClientRect();
+    if (!rect.width) return;
+    const scale = 640 / rect.width;
+    target.x = (e.clientX - rect.left) * scale;
+    target.y = (e.clientY - rect.top) * scale;
   });
+
+  const GRIPPER_PERIOD = 5.5; // seconds for one full open+close cycle
+  const visibleQuery = window.matchMedia("(min-width: 1400px)");
+  let rafId = null;
+
+  function tick() {
+    const goal = solveIK(target.x, target.y);
+    curShoulder += (goal.shoulder - curShoulder) * 0.09;
+    curElbow += (goal.elbow - curElbow) * 0.12;
+    rbShoulder.setAttribute("transform", `rotate(${curShoulder} ${SHOULDER.x} ${SHOULDER.y})`);
+    rbElbow.setAttribute("transform", `rotate(${curElbow})`);
+
+    const t = performance.now() / 1000;
+    const openness = (Math.sin((t / GRIPPER_PERIOD) * Math.PI * 2 - Math.PI / 2) + 1) / 2;
+    outerPetals.forEach((g, i) => {
+      const open = outerAngles[i];
+      g.setAttribute("transform", `rotate(${open * (0.08 + 0.92 * openness)})`);
+    });
+    innerPetals.forEach((g, i) => {
+      const open = innerAngles[i];
+      g.setAttribute("transform", `rotate(${open * (0.08 + 0.92 * openness)})`);
+    });
+
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function syncLoop(mq) {
+    if (mq.matches && rafId === null) {
+      rafId = requestAnimationFrame(tick);
+    } else if (!mq.matches && rafId !== null) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  }
+  visibleQuery.addEventListener("change", () => syncLoop(visibleQuery));
+  syncLoop(visibleQuery);
 }
 
 // Scroll reveal

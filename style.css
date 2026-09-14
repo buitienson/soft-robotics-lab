@@ -163,32 +163,41 @@ h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); margin-bottom: 14px; }
   .hero-bot { display: block; }
 }
 
-.rb-base-shadow { fill: rgba(26, 26, 26, 0.06); }
+.rb-base-shadow { fill: rgba(26, 26, 26, 0.07); }
 
-.rb-base-block { fill: var(--bg-raised); stroke: var(--line); }
-
-.rb-joint { fill: var(--card); stroke: var(--fg-faint); stroke-width: 2; }
-
-.rb-segment { fill: var(--bg-raised); stroke: var(--line); }
-
-#rbArm {
-  transform-box: view-box;
-  transform-origin: 520px 500px;
-  transform: rotate(-135deg);
-  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+.rb-base-block {
+  fill: url(#rbLinkGrad);
+  stroke: #c5c3ba;
+  stroke-width: 1.5;
 }
 
-.rb-petals {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: rb-spin 16s linear infinite;
+.rb-link {
+  fill: url(#rbLinkGrad);
+  stroke: #c5c3ba;
+  stroke-width: 1.5;
 }
 
-@keyframes rb-spin { to { transform: rotate(360deg); } }
+.rb-joint, .rb-joint-big {
+  fill: #eeede8;
+  stroke: #b3b1a7;
+  stroke-width: 2;
+}
 
-.rb-petal { fill: #c9776a; opacity: 0.82; }
+.rb-bolt { fill: #9c9a90; }
 
-.rb-center { fill: var(--fg); }
+.rb-mount { fill: #d8d6cc; stroke: #b3b1a7; stroke-width: 1.5; }
+
+/* IK-driven: JS sets rotate() on #rbShoulder / #rbElbow directly (SVG attribute,
+   not CSS) so nested forward-kinematics composition works without transform-box
+   quirks across browsers. */
+
+.rb-petal-outer { fill: #ec9fb3; opacity: 0.95; }
+
+.rb-petal-inner { fill: #f9d3df; opacity: 0.95; }
+
+.rb-seedpod { fill: #cdd07a; stroke: #b9bd63; stroke-width: 1; }
+
+.rb-seed { fill: #96986a; }
 
 @media (min-width: 1100px) {
   .hero {

@@ -40,25 +40,63 @@
 <main id="top">
 
 <section class="hero">
-  <svg class="hero-bot" viewBox="0 0 640 600" preserveAspectRatio="xMaxYMax meet" aria-hidden="true">
+  <svg class="hero-bot" viewBox="0 0 640 640" preserveAspectRatio="xMaxYMax meet" aria-hidden="true">
+    <defs>
+      <linearGradient id="rbLinkGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#f5f4f0"></stop>
+        <stop offset="0.5" stop-color="#e6e4dd"></stop>
+        <stop offset="1" stop-color="#d3d1c8"></stop>
+      </linearGradient>
+    </defs>
+
     <g class="rb-base">
-      <ellipse cx="520" cy="560" rx="110" ry="18" class="rb-base-shadow"></ellipse>
-      <rect x="470" y="500" width="100" height="66" rx="10" class="rb-base-block"></rect>
-      <circle cx="520" cy="500" r="22" class="rb-joint"></circle>
+      <ellipse cx="470" cy="588" rx="92" ry="16" class="rb-base-shadow"></ellipse>
+      <rect x="426" y="520" width="88" height="60" rx="12" class="rb-base-block"></rect>
+      <rect x="440" y="500" width="60" height="28" rx="8" class="rb-base-block"></rect>
     </g>
-    <g id="rbArm" class="rb-arm">
-      <rect x="520" y="487" width="240" height="26" rx="13" class="rb-segment"></rect>
-      <circle cx="650" cy="500" r="13" class="rb-joint"></circle>
-      <g class="rb-flower" transform="translate(760 500)">
-        <g class="rb-petals">
-          <ellipse cx="0" cy="-34" rx="15" ry="34" class="rb-petal" transform="rotate(0)"></ellipse>
-          <ellipse cx="0" cy="-34" rx="15" ry="34" class="rb-petal" transform="rotate(60)"></ellipse>
-          <ellipse cx="0" cy="-34" rx="15" ry="34" class="rb-petal" transform="rotate(120)"></ellipse>
-          <ellipse cx="0" cy="-34" rx="15" ry="34" class="rb-petal" transform="rotate(180)"></ellipse>
-          <ellipse cx="0" cy="-34" rx="15" ry="34" class="rb-petal" transform="rotate(240)"></ellipse>
-          <ellipse cx="0" cy="-34" rx="15" ry="34" class="rb-petal" transform="rotate(300)"></ellipse>
+
+    <g id="rbShoulder">
+      <rect x="470" y="457" width="165" height="26" rx="13" class="rb-link"></rect>
+      <circle cx="470" cy="470" r="24" class="rb-joint-big"></circle>
+      <circle cx="470" cy="470" r="7" class="rb-bolt"></circle>
+      <circle cx="635" cy="470" r="17" class="rb-joint"></circle>
+      <circle cx="635" cy="470" r="5" class="rb-bolt"></circle>
+
+      <g transform="translate(635 470)">
+        <g id="rbElbow">
+          <rect x="0" y="-13" width="135" height="26" rx="13" class="rb-link"></rect>
+          <circle cx="135" cy="0" r="14" class="rb-joint"></circle>
+          <circle cx="135" cy="0" r="5" class="rb-bolt"></circle>
+
+          <g transform="translate(135 0)">
+            <g id="rbGripperMount">
+              <rect x="0" y="-9" width="26" height="18" rx="5" class="rb-mount"></rect>
+              <g class="rb-flower">
+                <g class="rb-petals-outer">
+                  <g class="rb-petal-g"><ellipse cx="40" cy="0" rx="34" ry="14" class="rb-petal rb-petal-outer"></ellipse></g>
+                  <g class="rb-petal-g"><ellipse cx="40" cy="0" rx="34" ry="14" class="rb-petal rb-petal-outer"></ellipse></g>
+                  <g class="rb-petal-g"><ellipse cx="40" cy="0" rx="34" ry="14" class="rb-petal rb-petal-outer"></ellipse></g>
+                  <g class="rb-petal-g"><ellipse cx="40" cy="0" rx="34" ry="14" class="rb-petal rb-petal-outer"></ellipse></g>
+                  <g class="rb-petal-g"><ellipse cx="40" cy="0" rx="34" ry="14" class="rb-petal rb-petal-outer"></ellipse></g>
+                  <g class="rb-petal-g"><ellipse cx="40" cy="0" rx="34" ry="14" class="rb-petal rb-petal-outer"></ellipse></g>
+                </g>
+                <g class="rb-petals-inner">
+                  <g class="rb-petal-g"><ellipse cx="26" cy="0" rx="22" ry="9" class="rb-petal rb-petal-inner"></ellipse></g>
+                  <g class="rb-petal-g"><ellipse cx="26" cy="0" rx="22" ry="9" class="rb-petal rb-petal-inner"></ellipse></g>
+                  <g class="rb-petal-g"><ellipse cx="26" cy="0" rx="22" ry="9" class="rb-petal rb-petal-inner"></ellipse></g>
+                  <g class="rb-petal-g"><ellipse cx="26" cy="0" rx="22" ry="9" class="rb-petal rb-petal-inner"></ellipse></g>
+                  <g class="rb-petal-g"><ellipse cx="26" cy="0" rx="22" ry="9" class="rb-petal rb-petal-inner"></ellipse></g>
+                </g>
+                <circle r="12" class="rb-seedpod"></circle>
+                <circle cx="-3" cy="-3" r="1.6" class="rb-seed"></circle>
+                <circle cx="4" cy="-2" r="1.6" class="rb-seed"></circle>
+                <circle cx="0" cy="4" r="1.6" class="rb-seed"></circle>
+                <circle cx="-4" cy="3" r="1.6" class="rb-seed"></circle>
+                <circle cx="4" cy="4" r="1.6" class="rb-seed"></circle>
+              </g>
+            </g>
+          </g>
         </g>
-        <circle r="16" class="rb-center"></circle>
       </g>
     </g>
   </svg>
