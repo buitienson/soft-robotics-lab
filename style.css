@@ -322,8 +322,8 @@ button.project-card, a.project-card { cursor: pointer; }
 .pi-block { display: flex; gap: 40px; align-items: flex-start; }
 
 .pi-portrait {
-  width: 140px; height: 140px; object-fit: cover; border-radius: var(--radius);
-  border: 1px solid var(--line); flex-shrink: 0;
+  width: 140px; height: 140px; object-fit: cover; object-position: 50% 5%;
+  border-radius: var(--radius); border: 1px solid var(--line); flex-shrink: 0;
 }
 
 .pi-text p { color: var(--fg-dim); max-width: 68ch; }
@@ -434,7 +434,7 @@ button.project-card, a.project-card { cursor: pointer; }
   background: var(--bg-raised);
 }
 
-.team-card .avatar.photo { object-fit: cover; }
+.team-card .avatar.photo { object-fit: cover; object-position: 50% 12%; }
 
 .team-card div.avatar {
   display: flex; align-items: center; justify-content: center;
