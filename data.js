@@ -64,14 +64,8 @@ const PROJECTS = [
   {
     id: "bicycle",
     title: "Agile Bicycle-like Robot",
-    body: "A compact bicycle-like robot with independently steered magnetic wheels and a reciprocating mechanism, enabling multi-directional mobility for inspecting complex ferromagnetic structures.",
+    body: "A compact bicycle-like robot with independently steered magnetic wheels and a reciprocating mechanism, giving it multi-directional mobility to traverse welds, edges, and corners while inspecting complex ferromagnetic steel structures.",
     media: { type: "video", youtube: "Qdh1oz_oxiQ", thumb: "assets/img/projects/bicycle-video-thumb.jpg" },
-  },
-  {
-    id: "bicycle2",
-    title: "Multi-directional Bicycle Robot",
-    body: "An evolved inspection robot for complex steel structures, equipped with ultrasonic sensing and adaptive shape change to traverse welds, edges, and corners.",
-    media: { type: "letter", letter: "M" },
   },
   {
     id: "aquaband",
