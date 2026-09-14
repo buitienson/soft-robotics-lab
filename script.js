@@ -211,6 +211,39 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && !lightbox.hidden) closeLightbox();
 });
 
+// Hero robot arm — follows the cursor
+const rbArm = document.getElementById("rbArm");
+if (rbArm) {
+  const heroBot = document.querySelector(".hero-bot");
+  const SHOULDER = { x: 520, y: 500 };
+  let pending = false;
+  let lastX = 0;
+  let lastY = 0;
+
+  function updateArm(clientX, clientY) {
+    const rect = heroBot.getBoundingClientRect();
+    if (!rect.width) return;
+    const scale = 640 / rect.width;
+    const localX = (clientX - rect.left) * scale;
+    const localY = (clientY - rect.top) * scale;
+    let angle = (Math.atan2(localY - SHOULDER.y, localX - SHOULDER.x) * 180) / Math.PI;
+    angle = Math.max(-175, Math.min(-15, angle));
+    rbArm.style.transform = `rotate(${angle}deg)`;
+  }
+
+  document.addEventListener("mousemove", (e) => {
+    lastX = e.clientX;
+    lastY = e.clientY;
+    if (!pending) {
+      pending = true;
+      requestAnimationFrame(() => {
+        updateArm(lastX, lastY);
+        pending = false;
+      });
+    }
+  });
+}
+
 // Scroll reveal
 const revealObserver = new IntersectionObserver(
   (entries) => {
