@@ -239,8 +239,8 @@ if (rbShoulder && rbElbow) {
     const cosB = (L1 * L1 + L2 * L2 - d * d) / (2 * L1 * L2);
     const b = Math.acos(Math.max(-1, Math.min(1, cosB)));
     return {
-      shoulder: ((a1 - a2) * 180) / Math.PI,
-      elbow: ((Math.PI - b) * 180) / Math.PI,
+      shoulder: ((a1 + a2) * 180) / Math.PI,
+      elbow: (-(Math.PI - b) * 180) / Math.PI,
     };
   }
 
