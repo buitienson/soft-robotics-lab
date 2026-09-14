@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Soft Robotics Lab — bio-inspired robotics, tactile sensing and assistive systems at Hanoi University of Industry.">
+<title>Soft Robotics Lab</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="noise" aria-hidden="true"></div>
+
+<header class="site-header">
+  <a class="brand" href="#top">
+    <span class="brand-mark" aria-hidden="true"></span>
+    Soft Robotics Lab
+  </a>
+  <nav class="site-nav" aria-label="Section">
+    <a href="#research">Research</a>
+    <a href="#lumir">LumiR</a>
+    <a href="#publications">Publications</a>
+    <a href="#team">Team</a>
+    <a href="#news">News</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <p class="metaline mono">
+    <span class="dot"></span> HANOI UNIVERSITY OF INDUSTRY
+    <b>·</b> <span id="clock">--:--</span> ICT
+  </p>
+  <h1>Listen to nature.<br>Build gently.</h1>
+  <p class="lede">
+    Soft Robotics Lab explores soft robotics, tactile sensing and bio-inspired systems
+    through a science-first approach: study how nature solves a problem, then build
+    technology that is gentle, useful and safe around people.
+  </p>
+  <div class="hero-stats mono">
+    <div><span class="num">6</span><span class="lbl">research lines</span></div>
+    <div><span class="num">29</span><span class="lbl">publications</span></div>
+    <div><span class="num">2023</span><span class="lbl">since</span></div>
+  </div>
+</section>
+
+<section id="research" class="section">
+  <p class="kicker mono">01 — RESEARCH</p>
+  <h2>What we build</h2>
+  <p class="section-intro">Bio-inspired robots, tactile sensors and inspection systems, organized around six standing research lines.</p>
+  <div id="research-grid" class="research-grid"></div>
+</section>
+
+<section id="lumir" class="section flagship">
+  <p class="kicker mono">02 — FLAGSHIP</p>
+  <h2>LumiR: assistive navigation robot</h2>
+  <p class="section-intro">
+    An AI-integrated mobile robot that helps people with visual impairments move safely and
+    independently. LumiR combines 240° LiDAR, computer vision and wireless haptic feedback —
+    guidance reaches the user through a vibrating glove and bone-conduction audio, leaving
+    their own senses free.
+  </p>
+  <div class="flagship-stats mono">
+    <div><span class="num">3</span><span class="lbl">prototype generations</span></div>
+    <div><span class="num">&gt;70%</span><span class="lbl">collision-free indoor navigation</span></div>
+    <div><span class="num">2026</span><span class="lbl">SETSM Best Paper</span></div>
+  </div>
+</section>
+
+<section id="projects" class="section">
+  <p class="kicker mono">03 — PROJECTS</p>
+  <h2>Selected projects</h2>
+  <p class="section-intro">Each project answers a question with hardware and code.</p>
+  <div id="projects-grid" class="projects-grid"></div>
+</section>
+
+<section class="section">
+  <p class="kicker mono">04 — PRINCIPAL INVESTIGATOR</p>
+  <h2>Dr. Son Tien Bui</h2>
+  <div class="pi-block">
+    <p class="pi-role mono">MEMBER, IEEE · LECTURER, HAUI</p>
+    <p>
+      Son Tien Bui (Member, IEEE) received his Bachelor's and Master's degrees in Mechanical
+      Engineering from Hanoi University of Science and Technology, Vietnam, in 2009 and 2012
+      respectively. He completed his Ph.D. in Robotics at the Japan Advanced Institute of
+      Science and Technology (JAIST), Japan, in 2023, under the Soft Haptics Lab. His doctoral
+      work, supported by the MEXT scholarship, earned recognition as an outstanding finalist.
+    </p>
+    <p>
+      From 2010 to 2018, Dr. Bui served as a lecturer at Hanoi University of Industry (HaUI),
+      where he established and has managed Fablab HaUI — an open laboratory for student
+      research — since 2016. In 2019, he was awarded a JASSO scholarship to work as a
+      Research Assistant at the National Institute of Technology, Tsuruoka College, Japan.
+    </p>
+    <p>
+      Since April 2023, he has been a lecturer at the Department of Science and Technology,
+      HaUI, where he leads Soft Robotics Lab as a research initiative focused on bio-inspired
+      robotics, soft sensing and human-centered assistive systems.
+    </p>
+    <a class="mono link" href="mailto:sonbt@haui.edu.vn">sonbt@haui.edu.vn →</a>
+  </div>
+</section>
+
+<section id="publications" class="section">
+  <p class="kicker mono">05 — PUBLICATIONS</p>
+  <h2>Peer-reviewed work</h2>
+  <p class="section-intro">Papers by Dr. Bui and lab collaborators, newest first.</p>
+  <div id="pub-list" class="pub-list"></div>
+  <button id="pub-more" class="btn mono" type="button">Show all publications</button>
+</section>
+
+<section id="team" class="section">
+  <p class="kicker mono">06 — LAB MEMBERS</p>
+  <h2>The people</h2>
+  <p class="section-intro">A small group of researchers, engineers, and students working on soft robotics and assistive technologies.</p>
+  <div id="team-grid" class="team-grid"></div>
+</section>
+
+<section id="news" class="section">
+  <p class="kicker mono">07 — NEWS &amp; UPDATES</p>
+  <h2>Latest from the lab</h2>
+  <div id="news-list" class="news-list"></div>
+</section>
+
+<section id="honors" class="section">
+  <p class="kicker mono">08 — HONORS &amp; SERVICE</p>
+  <h2>Recognition &amp; contributions</h2>
+  <div class="honors-grid">
+    <div>
+      <h3 class="mono">Honors</h3>
+      <ol id="honors-list" class="honors-list"></ol>
+    </div>
+    <div>
+      <h3 class="mono">Professional service</h3>
+      <dl id="service-list" class="service-list"></dl>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="section contact">
+  <p class="kicker mono">09 — CONTACT</p>
+  <h2>Get in touch</h2>
+  <p class="section-intro">
+    Interested in collaborating, joining the lab, or licensing a design? Reach out.
+  </p>
+  <div class="contact-links mono">
+    <a class="link" href="mailto:sonbt@haui.edu.vn">sonbt@haui.edu.vn →</a>
+    <a class="link" href="https://www.haui.edu.vn" target="_blank" rel="noopener">www.haui.edu.vn →</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer mono">
+  <span>© <span id="year"></span> Soft Robotics Lab, Hanoi University of Industry.</span>
+  <a href="https://github.com/buitienson/soft-robotics-lab" target="_blank" rel="noopener">Source on GitHub →</a>
+</footer>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
