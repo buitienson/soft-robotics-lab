@@ -133,10 +133,14 @@ MEMBERS.forEach((m) => {
     avatar.loading = "lazy";
   }
   card.appendChild(avatar);
-  card.appendChild(el("span", "tag", m.tag));
-  card.appendChild(el("h3", null, m.name));
-  card.appendChild(el("p", "role", m.role));
-  card.appendChild(el("p", null, m.body));
+
+  const body = el("div", "team-card-body");
+  body.appendChild(el("span", "tag", m.tag));
+  body.appendChild(el("h3", null, m.name));
+  body.appendChild(el("p", "role", m.role));
+  body.appendChild(el("p", null, m.body));
+  card.appendChild(body);
+
   teamGrid.appendChild(card);
 });
 
