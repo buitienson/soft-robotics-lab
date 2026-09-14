@@ -43,11 +43,19 @@ const pubList = document.getElementById("pub-list");
 const PUB_PREVIEW = 8;
 PUBLICATIONS.forEach((p, i) => {
   const item = el("div", "pub-item" + (i >= PUB_PREVIEW ? " hidden" : ""));
-  item.appendChild(el("div", "pub-meta mono", `${fmtDate(p.date)}<span class="venue">${p.venue}</span>`));
+  const tierBadge = p.tier && p.tier !== "—" ? `<span class="tier">${p.tier}</span>` : "";
+  item.appendChild(el("div", "pub-meta mono", `${p.year}${tierBadge}`));
   const body = el("div");
-  body.appendChild(el("h3", null, p.title));
-  body.appendChild(el("p", "authors", p.authors));
-  body.appendChild(el("p", "where", p.where));
+  let pubUrl = null;
+  if (p.doi) {
+    pubUrl = p.doi.startsWith("10.") ? `https://doi.org/${p.doi}` : `https://${p.doi}`;
+  }
+  const titleHtml = pubUrl
+    ? `<a href="${pubUrl}" target="_blank" rel="noopener">${p.title}</a>`
+    : p.title;
+  body.appendChild(el("h3", null, titleHtml));
+  if (p.authors) body.appendChild(el("p", "authors", p.authors));
+  body.appendChild(el("p", "where", p.venue + (p.highlight ? ` · <span class="hl">${p.highlight}</span>` : "")));
   item.appendChild(body);
   pubList.appendChild(item);
 });
@@ -61,12 +69,33 @@ if (PUBLICATIONS.length <= PUB_PREVIEW) {
   });
 }
 
+// Patents
+const patentsList = document.getElementById("patents-list");
+PATENTS.forEach((p) => {
+  const item = el("div", "patent-item");
+  const titleHtml = p.url
+    ? `<a href="${p.url}" target="_blank" rel="noopener">${p.title}</a>`
+    : p.title;
+  item.appendChild(el("h3", null, titleHtml));
+  item.appendChild(el("p", "office mono", p.office));
+  item.appendChild(el("p", "status", `${p.status} · ${p.detail}`));
+  patentsList.appendChild(item);
+});
+
 // Team
 const teamGrid = document.getElementById("team-grid");
 MEMBERS.forEach((m) => {
   const card = el("div", "team-card");
   const initials = m.name.split(" ").slice(-2).map((w) => w[0]).join("").toUpperCase();
-  card.appendChild(el("div", "avatar", initials));
+  const avatar = m.photo
+    ? el("img", "avatar photo")
+    : el("div", "avatar", initials);
+  if (m.photo) {
+    avatar.src = m.photo;
+    avatar.alt = m.name;
+    avatar.loading = "lazy";
+  }
+  card.appendChild(avatar);
   card.appendChild(el("span", "tag", m.tag));
   card.appendChild(el("h3", null, m.name));
   card.appendChild(el("p", "role", m.role));
@@ -77,22 +106,39 @@ MEMBERS.forEach((m) => {
 // News
 const newsList = document.getElementById("news-list");
 NEWS.forEach((n) => {
-  const item = el("div", "news-item");
+  const item = el("div", "news-item" + (n.photo ? " has-photo" : ""));
   item.appendChild(el("span", "date mono", fmtDate(n.date)));
   item.appendChild(el("span", "tag", n.tag));
-  item.appendChild(el("span", "body", n.body));
+  const bodyWrap = el("div", "body-wrap");
+  bodyWrap.appendChild(el("span", "body", n.body));
+  if (n.photo) {
+    const img = el("img", "news-photo");
+    img.src = n.photo;
+    img.alt = "";
+    img.loading = "lazy";
+    bodyWrap.appendChild(img);
+  }
+  item.appendChild(bodyWrap);
   newsList.appendChild(item);
 });
 
 // Honors
 const honorsList = document.getElementById("honors-list");
-HONORS.forEach((h) => honorsList.appendChild(el("li", null, h)));
+HONORS.forEach((h) => {
+  const titleHtml = h.url
+    ? `<a href="${h.url}" target="_blank" rel="noopener">${h.title}</a>`
+    : h.title;
+  honorsList.appendChild(el("li", null, `<b>${h.year}</b> — ${titleHtml}<span class="where">${h.where}</span>`));
+});
 
 const serviceList = document.getElementById("service-list");
-SERVICE.forEach(([term, def]) => {
-  serviceList.appendChild(el("dt", null, term));
-  serviceList.appendChild(el("dd", null, def));
+SERVICE.forEach((s) => {
+  const whereHtml = s.url
+    ? `<a href="${s.url}" target="_blank" rel="noopener">${s.where}</a>`
+    : s.where;
+  serviceList.appendChild(el("li", null, `<b>${s.year}</b> — ${s.role}, ${whereHtml}`));
 });
+document.getElementById("reviewer-for").innerHTML = `<b>Reviewer for</b> ${REVIEWER_FOR}`;
 
 // Clock (Asia/Ho_Chi_Minh)
 function tickClock() {

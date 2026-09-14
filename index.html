@@ -17,13 +17,14 @@
 
 <header class="site-header">
   <a class="brand" href="#top">
-    <span class="brand-mark" aria-hidden="true"></span>
+    <img class="brand-mark" src="assets/img/logo-mark.svg" alt="" aria-hidden="true">
     Soft Robotics Lab
   </a>
   <nav class="site-nav" aria-label="Section">
     <a href="#research">Research</a>
     <a href="#lumir">LumiR</a>
     <a href="#publications">Publications</a>
+    <a href="#patents">Patents</a>
     <a href="#team">Team</a>
     <a href="#news">News</a>
     <a href="#contact">Contact</a>
@@ -49,6 +50,7 @@
   <div class="hero-stats mono">
     <div><span class="num">6</span><span class="lbl">research lines</span></div>
     <div><span class="num">29</span><span class="lbl">publications</span></div>
+    <div><span class="num">11</span><span class="lbl">patents</span></div>
     <div><span class="num">2023</span><span class="lbl">since</span></div>
   </div>
 </section>
@@ -87,26 +89,22 @@
   <p class="kicker mono">04 — PRINCIPAL INVESTIGATOR</p>
   <h2>Dr. Son Tien Bui</h2>
   <div class="pi-block">
-    <p class="pi-role mono">MEMBER, IEEE · LECTURER, HAUI</p>
-    <p>
-      Son Tien Bui (Member, IEEE) received his Bachelor's and Master's degrees in Mechanical
-      Engineering from Hanoi University of Science and Technology, Vietnam, in 2009 and 2012
-      respectively. He completed his Ph.D. in Robotics at the Japan Advanced Institute of
-      Science and Technology (JAIST), Japan, in 2023, under the Soft Haptics Lab. His doctoral
-      work, supported by the MEXT scholarship, earned recognition as an outstanding finalist.
-    </p>
-    <p>
-      From 2010 to 2018, Dr. Bui served as a lecturer at Hanoi University of Industry (HaUI),
-      where he established and has managed Fablab HaUI — an open laboratory for student
-      research — since 2016. In 2019, he was awarded a JASSO scholarship to work as a
-      Research Assistant at the National Institute of Technology, Tsuruoka College, Japan.
-    </p>
-    <p>
-      Since April 2023, he has been a lecturer at the Department of Science and Technology,
-      HaUI, where he leads Soft Robotics Lab as a research initiative focused on bio-inspired
-      robotics, soft sensing and human-centered assistive systems.
-    </p>
-    <a class="mono link" href="mailto:sonbt@haui.edu.vn">sonbt@haui.edu.vn →</a>
+    <img class="pi-portrait" src="assets/img/pi-portrait.jpg" alt="Dr. Son Tien Bui">
+    <div class="pi-text">
+      <p class="pi-role mono">MEMBER, IEEE · LECTURER, HAUI</p>
+      <p>
+        Son Tien Bui (Member, IEEE) received his Bachelor's and Master's degrees in Mechanical
+        Engineering from Hanoi University of Science and Technology, Vietnam, in 2009 and 2012
+        respectively. He completed his Ph.D. in Robotics at the Japan Advanced Institute of
+        Science and Technology (JAIST), Japan, in 2023, under the Soft Haptics Lab.
+      </p>
+      <p>
+        He has managed Fablab HaUI — an open laboratory for student research — since 2016, and
+        leads Soft Robotics Lab as a research initiative focused on bio-inspired robotics, soft
+        sensing and human-centered assistive systems.
+      </p>
+      <a class="mono link" href="mailto:sonbt@haui.edu.vn">sonbt@haui.edu.vn →</a>
+    </div>
   </div>
 </section>
 
@@ -118,36 +116,44 @@
   <button id="pub-more" class="btn mono" type="button">Show all publications</button>
 </section>
 
+<section id="patents" class="section">
+  <p class="kicker mono">06 — PATENTS</p>
+  <h2>Patents &amp; utility solutions</h2>
+  <p class="section-intro">Vietnam IP Office and JPO filings arising from the lab's gripper and propeller work.</p>
+  <div id="patents-list" class="patents-list"></div>
+</section>
+
 <section id="team" class="section">
-  <p class="kicker mono">06 — LAB MEMBERS</p>
+  <p class="kicker mono">07 — LAB MEMBERS</p>
   <h2>The people</h2>
   <p class="section-intro">A small group of researchers, engineers, and students working on soft robotics and assistive technologies.</p>
   <div id="team-grid" class="team-grid"></div>
 </section>
 
 <section id="news" class="section">
-  <p class="kicker mono">07 — NEWS &amp; UPDATES</p>
+  <p class="kicker mono">08 — NEWS &amp; UPDATES</p>
   <h2>Latest from the lab</h2>
   <div id="news-list" class="news-list"></div>
 </section>
 
 <section id="honors" class="section">
-  <p class="kicker mono">08 — HONORS &amp; SERVICE</p>
+  <p class="kicker mono">09 — HONORS &amp; SERVICE</p>
   <h2>Recognition &amp; contributions</h2>
   <div class="honors-grid">
     <div>
-      <h3 class="mono">Honors</h3>
+      <h3 class="mono">Awards &amp; honors</h3>
       <ol id="honors-list" class="honors-list"></ol>
     </div>
     <div>
-      <h3 class="mono">Professional service</h3>
-      <dl id="service-list" class="service-list"></dl>
+      <h3 class="mono">Keynotes &amp; chair roles</h3>
+      <ol id="service-list" class="service-list"></ol>
+      <p id="reviewer-for" class="reviewer-for"></p>
     </div>
   </div>
 </section>
 
 <section id="contact" class="section contact">
-  <p class="kicker mono">09 — CONTACT</p>
+  <p class="kicker mono">10 — CONTACT</p>
   <h2>Get in touch</h2>
   <p class="section-intro">
     Interested in collaborating, joining the lab, or licensing a design? Reach out.
