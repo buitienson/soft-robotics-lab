@@ -47,6 +47,20 @@
         <stop offset="0.5" stop-color="#e6e4dd"></stop>
         <stop offset="1" stop-color="#d3d1c8"></stop>
       </linearGradient>
+      <linearGradient id="rbPetalOuterGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#fce4ec"></stop>
+        <stop offset="0.55" stop-color="#f2a8c1"></stop>
+        <stop offset="1" stop-color="#dd6f95"></stop>
+      </linearGradient>
+      <linearGradient id="rbPetalInnerGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#fff8fa"></stop>
+        <stop offset="0.6" stop-color="#fbd3e0"></stop>
+        <stop offset="1" stop-color="#f0a8c0"></stop>
+      </linearGradient>
+      <radialGradient id="rbHaloGrad">
+        <stop offset="0" stop-color="#1a1a1a" stop-opacity="0.1"></stop>
+        <stop offset="1" stop-color="#1a1a1a" stop-opacity="0"></stop>
+      </radialGradient>
     </defs>
 
     <g class="rb-base">
@@ -72,20 +86,21 @@
             <g id="rbGripperMount">
               <rect x="0" y="-9" width="26" height="18" rx="5" class="rb-mount"></rect>
               <g class="rb-flower">
+                <circle r="70" class="rb-halo"></circle>
                 <g class="rb-petals-outer">
-                  <g class="rb-petal-g"><ellipse cx="40" cy="0" rx="34" ry="14" class="rb-petal rb-petal-outer"></ellipse></g>
-                  <g class="rb-petal-g"><ellipse cx="40" cy="0" rx="34" ry="14" class="rb-petal rb-petal-outer"></ellipse></g>
-                  <g class="rb-petal-g"><ellipse cx="40" cy="0" rx="34" ry="14" class="rb-petal rb-petal-outer"></ellipse></g>
-                  <g class="rb-petal-g"><ellipse cx="40" cy="0" rx="34" ry="14" class="rb-petal rb-petal-outer"></ellipse></g>
-                  <g class="rb-petal-g"><ellipse cx="40" cy="0" rx="34" ry="14" class="rb-petal rb-petal-outer"></ellipse></g>
-                  <g class="rb-petal-g"><ellipse cx="40" cy="0" rx="34" ry="14" class="rb-petal rb-petal-outer"></ellipse></g>
+                  <g class="rb-petal-g"><path d="M0,0 Q37,-17 76,0 Q37,17 0,0 Z" class="rb-petal rb-petal-outer"></path></g>
+                  <g class="rb-petal-g"><path d="M0,0 Q37,-17 76,0 Q37,17 0,0 Z" class="rb-petal rb-petal-outer"></path></g>
+                  <g class="rb-petal-g"><path d="M0,0 Q37,-17 76,0 Q37,17 0,0 Z" class="rb-petal rb-petal-outer"></path></g>
+                  <g class="rb-petal-g"><path d="M0,0 Q37,-17 76,0 Q37,17 0,0 Z" class="rb-petal rb-petal-outer"></path></g>
+                  <g class="rb-petal-g"><path d="M0,0 Q37,-17 76,0 Q37,17 0,0 Z" class="rb-petal rb-petal-outer"></path></g>
+                  <g class="rb-petal-g"><path d="M0,0 Q37,-17 76,0 Q37,17 0,0 Z" class="rb-petal rb-petal-outer"></path></g>
                 </g>
                 <g class="rb-petals-inner">
-                  <g class="rb-petal-g"><ellipse cx="26" cy="0" rx="22" ry="9" class="rb-petal rb-petal-inner"></ellipse></g>
-                  <g class="rb-petal-g"><ellipse cx="26" cy="0" rx="22" ry="9" class="rb-petal rb-petal-inner"></ellipse></g>
-                  <g class="rb-petal-g"><ellipse cx="26" cy="0" rx="22" ry="9" class="rb-petal rb-petal-inner"></ellipse></g>
-                  <g class="rb-petal-g"><ellipse cx="26" cy="0" rx="22" ry="9" class="rb-petal rb-petal-inner"></ellipse></g>
-                  <g class="rb-petal-g"><ellipse cx="26" cy="0" rx="22" ry="9" class="rb-petal rb-petal-inner"></ellipse></g>
+                  <g class="rb-petal-g"><path d="M0,0 Q24,-11 50,0 Q24,11 0,0 Z" class="rb-petal rb-petal-inner"></path></g>
+                  <g class="rb-petal-g"><path d="M0,0 Q24,-11 50,0 Q24,11 0,0 Z" class="rb-petal rb-petal-inner"></path></g>
+                  <g class="rb-petal-g"><path d="M0,0 Q24,-11 50,0 Q24,11 0,0 Z" class="rb-petal rb-petal-inner"></path></g>
+                  <g class="rb-petal-g"><path d="M0,0 Q24,-11 50,0 Q24,11 0,0 Z" class="rb-petal rb-petal-inner"></path></g>
+                  <g class="rb-petal-g"><path d="M0,0 Q24,-11 50,0 Q24,11 0,0 Z" class="rb-petal rb-petal-inner"></path></g>
                 </g>
                 <circle r="12" class="rb-seedpod"></circle>
                 <circle cx="-3" cy="-3" r="1.6" class="rb-seed"></circle>

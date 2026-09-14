@@ -238,9 +238,29 @@ if (rbShoulder && rbElbow) {
     const a2 = Math.acos(Math.max(-1, Math.min(1, cosA)));
     const cosB = (L1 * L1 + L2 * L2 - d * d) / (2 * L1 * L2);
     const b = Math.acos(Math.max(-1, Math.min(1, cosB)));
+    const elbowRel = Math.PI - b;
+
+    // Two IK branches exist (elbow bends to either side of the shoulder-target
+    // line). Pick whichever puts the elbow joint higher on screen (smaller y),
+    // so the arm always keeps its elbow clear of the "table" — regardless of
+    // which side the cursor is on — instead of a fixed branch that only looks
+    // right for targets on one side.
+    const candidates = [
+      { shoulder: a1 + a2, elbow: -elbowRel },
+      { shoulder: a1 - a2, elbow: elbowRel },
+    ];
+    let best = candidates[0];
+    let bestY = Infinity;
+    for (const c of candidates) {
+      const elbowY = SHOULDER.y + L1 * Math.sin(c.shoulder);
+      if (elbowY < bestY) {
+        bestY = elbowY;
+        best = c;
+      }
+    }
     return {
-      shoulder: ((a1 + a2) * 180) / Math.PI,
-      elbow: (-(Math.PI - b) * 180) / Math.PI,
+      shoulder: (best.shoulder * 180) / Math.PI,
+      elbow: (best.elbow * 180) / Math.PI,
     };
   }
 
@@ -265,10 +285,16 @@ if (rbShoulder && rbElbow) {
   const visibleQuery = window.matchMedia("(min-width: 1400px)");
   let rafId = null;
 
+  // Shortest-path angle delta (-180..180), so lerping never spins the long
+  // way around when the IK branch switch (or atan2 wraparound) jumps ~360deg.
+  function angleDelta(from, to) {
+    return ((((to - from) % 360) + 540) % 360) - 180;
+  }
+
   function tick() {
     const goal = solveIK(target.x, target.y);
-    curShoulder += (goal.shoulder - curShoulder) * 0.09;
-    curElbow += (goal.elbow - curElbow) * 0.12;
+    curShoulder += angleDelta(curShoulder, goal.shoulder) * 0.09;
+    curElbow += angleDelta(curElbow, goal.elbow) * 0.12;
     rbShoulder.setAttribute("transform", `rotate(${curShoulder} ${SHOULDER.x} ${SHOULDER.y})`);
     rbElbow.setAttribute("transform", `rotate(${curElbow})`);
 

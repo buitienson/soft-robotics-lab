@@ -191,9 +191,11 @@ h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); margin-bottom: 14px; }
    not CSS) so nested forward-kinematics composition works without transform-box
    quirks across browsers. */
 
-.rb-petal-outer { fill: #ec9fb3; opacity: 0.95; }
+.rb-halo { fill: url(#rbHaloGrad); }
 
-.rb-petal-inner { fill: #f9d3df; opacity: 0.95; }
+.rb-petal-outer { fill: url(#rbPetalOuterGrad); opacity: 0.82; }
+
+.rb-petal-inner { fill: url(#rbPetalInnerGrad); opacity: 0.88; }
 
 .rb-seedpod { fill: #cdd07a; stroke: #b9bd63; stroke-width: 1; }
 
