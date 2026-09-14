@@ -49,6 +49,13 @@ const RESEARCH = [
 
 const PROJECTS = [
   {
+    id: "lumir",
+    title: "LumiR: assistive navigation robot",
+    body: "An AI-integrated mobile robot that helps people with visual impairments move safely and independently — 240° LiDAR, computer vision and wireless haptic feedback through a vibrating glove and bone-conduction audio.",
+    flagship: true,
+    media: { type: "link", href: "https://buitienson.com/lumir/", img: "assets/img/lumir-research.jpg", fit: "cover" },
+  },
+  {
     id: "rose",
     title: "ROSE: Rotation-based Squeezing Robotic Gripper",
     body: "A soft gripper that embraces an object and squeezes it by buckling a funnel-like thin-walled membrane around it, through simple rotation of the base — inspired by the blooming states of a rose.",

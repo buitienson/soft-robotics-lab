@@ -55,7 +55,7 @@ PROJECTS.forEach((p, i) => {
     media.appendChild(img);
     media.appendChild(el("span", "play", PLAY_ICON));
   } else if (isLink) {
-    const img = el("img", "contain");
+    const img = el("img", p.media.fit === "cover" ? "" : "contain");
     img.src = p.media.img;
     img.alt = "";
     img.loading = "lazy";
