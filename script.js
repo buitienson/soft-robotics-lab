@@ -31,13 +31,19 @@ RESEARCH.forEach((r) => {
 // Projects
 const PLAY_ICON = `<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.92)"/><path d="M10 8.5l6 3.5-6 3.5z" fill="#1a1a1a"/></svg>`;
 const projectsGrid = document.getElementById("projects-grid");
+const LINK_ICON = `<svg viewBox="0 0 24 24" fill="none"><path d="M9 6h9v9M18 6L6 18" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 PROJECTS.forEach((p, i) => {
   const isVideo = p.media && p.media.type === "video";
-  const card = el(isVideo ? "button" : "div", "project-card reveal" + (p.flagship ? " flagship-tag" : ""));
+  const isLink = p.media && p.media.type === "link";
+  const card = el(isVideo ? "button" : isLink ? "a" : "div", "project-card reveal" + (p.flagship ? " flagship-tag" : ""));
   if (isVideo) {
     card.type = "button";
     card.dataset.youtube = p.media.youtube;
     card.addEventListener("click", () => openLightbox(p.media.youtube));
+  } else if (isLink) {
+    card.href = p.media.href;
+    card.target = "_blank";
+    card.rel = "noopener";
   }
 
   const media = el("div", "project-media");
@@ -48,6 +54,13 @@ PROJECTS.forEach((p, i) => {
     img.loading = "lazy";
     media.appendChild(img);
     media.appendChild(el("span", "play", PLAY_ICON));
+  } else if (isLink) {
+    const img = el("img", "contain");
+    img.src = p.media.img;
+    img.alt = "";
+    img.loading = "lazy";
+    media.appendChild(img);
+    media.appendChild(el("span", "play link-icon", LINK_ICON));
   } else if (p.media && p.media.type === "letter") {
     media.appendChild(el("span", "letter", p.media.letter));
   }

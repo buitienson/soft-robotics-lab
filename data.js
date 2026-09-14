@@ -56,6 +56,13 @@ const PROJECTS = [
     media: { type: "video", youtube: "E1wAI09LaoY", thumb: "assets/img/projects/rose-video-thumb.jpg" },
   },
   {
+    id: "digiteye",
+    title: "DigitEye: transparent soft tactile sensor",
+    body: "A fingertip sensor with a clear, soft silicone skin that feels touch and force through moving markers — and, because the skin is transparent, sees the object at the same time.",
+    flagship: true,
+    media: { type: "link", href: "https://buitienson.github.io/digiteye/", img: "assets/img/projects/digiteye-render.png" },
+  },
+  {
     id: "tombo",
     title: "Tombo Propeller",
     body: "A bio-inspired deformable propeller for drones, modeled after dragonfly wings, enabling collision-accommodated flight control.",

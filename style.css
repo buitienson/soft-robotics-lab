@@ -284,7 +284,7 @@ h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); margin-bottom: 14px; }
   width: 100%; text-align: left; padding: 0; font: inherit; cursor: default;
 }
 
-button.project-card { cursor: pointer; }
+button.project-card, a.project-card { cursor: pointer; }
 
 .project-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(26, 26, 26, 0.08); }
 
@@ -297,6 +297,8 @@ button.project-card { cursor: pointer; }
 
 .project-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
+.project-media img.contain { width: 78%; height: 78%; object-fit: contain; }
+
 .project-media .letter { font-family: var(--serif); font-size: 3.4rem; color: var(--fg-faint); }
 
 .project-media .play {
@@ -307,6 +309,13 @@ button.project-card { cursor: pointer; }
 .project-card:hover .project-media .play { opacity: 1; }
 
 .project-media .play svg { width: 46px; height: 46px; filter: drop-shadow(0 2px 6px rgba(0,0,0,.4)); }
+
+.project-media .play.link-icon {
+  inset: auto; top: 12px; right: 12px; width: 34px; height: 34px;
+  background: rgba(255, 255, 255, 0.92); border-radius: 50%;
+}
+
+.project-media .play.link-icon svg { width: 18px; height: 18px; filter: none; }
 
 .project-body { padding: 20px 22px 24px; }
 
